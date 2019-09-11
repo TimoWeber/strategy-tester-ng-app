@@ -1,0 +1,76 @@
+<div class="row">
+  <div class="col-md-12">
+    <h1 class="text-center">Strategy Results</h1>
+    <h2>Overview:</h2>
+
+    <div class="row">
+      <div class="col-md-6">
+        <p>Budget: {{ budget }}&#8364;</p>
+        <p>Risk: {{ risk }}</p>
+        <p>Total Profit in &#8364;: <span [ngStyle]="{'color': finalProfit > '0' ? 'green' : 'red'}">{{ finalProfit }}</span></p>
+        <p>Total Profit Ratio: {{ tradeAnalysis.totalProfit }}</p>
+        <p>Average profit: {{ tradeAnalysis.averageProfit }}</p>
+        <p>Reward Risk Ratio: {{ tradeAnalysis.rewardRisk }}%</p>
+
+      </div>
+      <div class="col-md-6">
+        <p>Profitable Trades: {{ tradeAnalysis.profitableTrades }}</p>
+        <p>Maximum Drawdown: {{ tradeAnalysis.maxDrawdown }}</p>
+        <p>No. of Bars: {{ tradeAnalysis.noOfBars }}</p>
+        <p>No. of Trades: {{ tradeAnalysis.noOfTrades }}</p>
+        <p>Total Transaction Cost (from 1000&#8364;): {{ tradeAnalysis.totalTransactionCost }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr />
+
+<div class="row">
+  <div class="col-md-12">
+    <app-strategy-settings
+      [budget]="budget"
+      (budgetChange)="showMessageFromChild($event)"
+    ></app-strategy-settings>
+  </div>
+</div>
+
+<hr />
+
+<div class="row">
+  <div class="col-md-12">
+    <app-budget-graph
+      [trades]="trades"
+      [graphData]="graphData"
+      [dateLabels]="dateLabels"
+    ></app-budget-graph>
+  </div>
+</div>
+
+<hr />
+
+<div class="row">
+  <div class="col-md-12">
+    <h2>Trades:</h2>
+    <table class="table table-sm text-right">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Buy</th>
+          <th scope="col">Sell</th>
+          <th scope="col">Profit</th>
+          <th scope="col">Budget</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let trade of trades | keyvalue; index as i">
+            <td>{{ i+1 }}</td>
+            <td>{{ trade.value.tradeBuy }}&#8364;</td>
+            <td>{{ trade.value.tradeSell }}&#8364;</td>
+            <td>{{ trade.value.profit }}&#8364;</td>
+            <td>{{ trade.value.budget }}&#8364;</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
